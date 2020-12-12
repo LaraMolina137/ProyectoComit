@@ -61,11 +61,11 @@ function sleep(delay = 0) {
 const FormularioReserva = () => {
     const classes = useStyles();
     const [values,setValues] = useState({
-        opcion:false,
+        opcion:["ida"],
         lugarOrigen:null,
         lugarDestino:'',
-        fechaIda:'',
-        fechaVuelta:'',
+        fechaIda:["2020-01-01"],
+        fechaVuelta:["2020-01-01"],
         cantidad:0
     });
     const [busca,setBusca] = useState(false);
@@ -87,14 +87,14 @@ const FormularioReserva = () => {
     // )
     
     function handleChange(e){
-        // console.log(e);
-        setValues({ ...values, [e.target.name]: [e.target.value] });
+        console.log(e.target);
+        setValues({...values,[e.target.name]: [e.target.value] });
     }  
 
     function handleSubmit(e) {
         e.preventDefault();
         console.log(values);
-        setBusca(true);
+        // setBusca(true);
         
     }
 
@@ -144,147 +144,97 @@ const FormularioReserva = () => {
 
           
   
-    return (
-        <form className={classes.root} onSubmit={handleSubmit} >
-                    <h4>RESERVA TU PASAJE</h4>
-                    <RadioGroup className={classes.rootChildren} defaultValue="ida"  name="opcion"  value={values.opcion.value} onChange={handleChange}>
-                            <FormControlLabel 
-                                className={classes.col}
-                                value="ida"
-                                control={<Radio color="primary"/>}
-                                label="IDA"
-                                labelPlacement="start"
-                            />
-                            <FormControlLabel
-                                className={classes.col}
-                                value="idaVuelta"
-                                control={<Radio color="primary" />}
-                                label="IDA Y VUELTA"
-                                labelPlacement="start"
-                            />
-                    </RadioGroup>
-
-                    {/* <div className={classes.rootChildren}>
-                         <Autocomplete className={classes.col}
-                                // onChange={handleChange}
-                                // value={values.lugarOrigen}
-                                id="origen"
-                                open={openOrigen}
-                                onOpen={() => {
-                                    setOpenOrigen(true);
-                                }}
-                                onClose={() => {
-                                    setOpenOrigen(false);
-                                }}
-                                getOptionSelected={(option, value) => option.name === value.name}
-                                getOptionLabel={(option) => option.name}
-                                options={optionsOrigen}
-                                loading={loadingOrigen}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="ORIGEN"
-                                        variant="outlined"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                            <React.Fragment>
-                                                {loadingOrigen ? <CircularProgress color="inherit" size={20} /> : null}
-                                                {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                            ),
-                                        }}
-                                    />
-                                )}
-                                />
-                                <Autocomplete className={classes.col}
-                                    // onChange={handleChange}
-                                    // value={values.lugarDestino}
-                                    id="origen"
-                                    open={openDestino}
-                                    onOpen={() => {
-                                        setOpenDestino(true);
-                                    }}
-                                    onClose={() => {
-                                        setOpenDestino(false);
-                                    }}
-                                    getOptionSelected={(option, value) => option.name === value.name}
-                                    getOptionLabel={(option) => option.name}
-                                    options={optionsDestino}
-                                    loading={loadingDestino}
-                                    renderInput={(params) => (
-                                        <TextField
-                                        {...params}
-                                        label="DESTINO"
-                                        variant="outlined"
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            endAdornment: (
-                                            <React.Fragment>
-                                                {loadingDestino ? <CircularProgress color="inherit" size={20} /> : null}
-                                                {params.InputProps.endAdornment}
-                                            </React.Fragment>
-                                            ),
-                                        }}
-                                        />
-                                    )}
-                                />
-        
-                    </div> */}
-                    {/* <div className={classes.rootChildren}>
-                    <TextField
-                        onChange={handleChange}
-                        name="fechaIda"
-                        value={values.fechaIda}
-                        id="dateIda"
-                        label="FECHA DE IDA"
-                        type="date"
-                        defaultValue="2017-05-24"
-                        className={classes.textField}
-                        InputLabelProps={{
-                        shrink: true,
-                        }}
+return (
+    <form className={classes.root} onSubmit={handleSubmit} >
+        <h4>RESERVA TU PASAJE</h4>
+        <RadioGroup className={classes.rootChildren} defaultValue="ida"  name="opcion"  value={values.opcion.value} onChange={handleChange}>
+            <FormControlLabel className={classes.col} value="ida" control={<Radio color="primary"/>} label="IDA" labelPlacement="start"/>
+            <FormControlLabel className={classes.col} value="idaVuelta" control={<Radio color="primary" />} label="IDA Y VUELTA" labelPlacement="start"/>
+        </RadioGroup>
+        {/* <div className={classes.rootChildren}>
+             <Autocomplete className={classes.col}
+                    // onChange={handleChange}
+                    // value={values.lugarOrigen}
+                    id="origen"
+                    open={openOrigen}
+                    onOpen={() => {
+                        setOpenOrigen(true);
+                    }}
+                    onClose={() => {
+                        setOpenOrigen(false);
+                    }}
+                    getOptionSelected={(option, value) => option.name === value.name}
+                    getOptionLabel={(option) => option.name}
+                    options={optionsOrigen}
+                    loading={loadingOrigen}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="ORIGEN"
+                            variant="outlined"
+                            InputProps={{
+                                ...params.InputProps,
+                                endAdornment: (
+                                <React.Fragment>
+                                    {loadingOrigen ? <CircularProgress color="inherit" size={20} /> : null}
+                                    {params.InputProps.endAdornment}
+                                </React.Fragment>
+                                ),
+                            }}
+                        />
+                    )}
                     />
-                    <TextField
-                        onChange={handleChange}
-                        name="fechaVuelta"
-                        value={values.fechaVuelta}
-                        id="dateVuelta"
-                        label="FECHA DE VUELTA"
-                        type="date"
-                        defaultValue="2017-05-24"
-                        className={classes.textField}
-                        InputLabelProps={{
-                        shrink: true,
+                    <Autocomplete className={classes.col}
+                        // onChange={handleChange}
+                        // value={values.lugarDestino}
+                        id="origen"
+                        open={openDestino}
+                        onOpen={() => {
+                            setOpenDestino(true);
                         }}
-                    />
-                    </div> */}
-
-                    <div className={classes.rootChildren}>
-                        <div className={classes.col}>
-                            <label htmlFor="">Personas </label>
-                            <Input
-                                onChange={handleChange}
-                                name="cantidad"
-                                value={values.cantidad}
-                                inputProps={{
-                                step: 1,
-                                min: 0,
-                                max: 3,
-                                type: 'number',
-                                }}
+                        onClose={() => {
+                            setOpenDestino(false);
+                        }}
+                        getOptionSelected={(option, value) => option.name === value.name}
+                        getOptionLabel={(option) => option.name}
+                        options={optionsDestino}
+                        loading={loadingDestino}
+                        renderInput={(params) => (
+                            <TextField
+                            {...params}
+                            label="DESTINO"
+                            variant="outlined"
+                            InputProps={{
+                                ...params.InputProps,
+                                endAdornment: (
+                                <React.Fragment>
+                                    {loadingDestino ? <CircularProgress color="inherit" size={20} /> : null}
+                                    {params.InputProps.endAdornment}
+                                </React.Fragment>
+                                ),
+                            }}
                             />
-                        </div>
-                            
-                        <div className={classes.col}>
-                            <Button variant="contained" color="primary" type="submit"  className={classes.buscar}>BUSCAR VIAJES</Button>
-                        </div>
+                        )}
+                    />
+    
+                </div> */}
+                <div className={classes.rootChildren}>
+                    <TextField className={classes.textField} onChange={handleChange} name="fechaIda" value={values.fechaIda} label="FECHA DE IDA" type="date" InputLabelProps={{shrink: true,}}/>
+                    <TextField className={classes.textField} onChange={handleChange} name="fechaVuelta" value={values.fechaVuelta} label="FECHA DE VUELTA" type="date" InputLabelProps={{shrink: true,}}/>
+                </div>
+                <div className={classes.rootChildren}>
+                    <div className={classes.col}>
+                        <label htmlFor="">Personas </label>
+                        <Input onChange={handleChange} name="cantidad" value={values.cantidad} inputProps={{ step: 1, min: 0, max: 3, type: 'number',}}/>
+                    </div>    
+                    <div className={classes.col}>
+                        <Button variant="contained" color="primary" type="submit"  className={classes.buscar}>BUSCAR VIAJES</Button>
                     </div>
+                </div>
+                {busca  && <Redirect to="/viaje"/>}
+    </form>
+);
 
-
-                    {busca  && <Redirect to="/viaje"/>}
-        </form>
-    );
 };
 
 export default FormularioReserva;
