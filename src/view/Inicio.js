@@ -6,8 +6,6 @@ import Carrusel from '../components/Carrusel'
 import {Redirect} from 'react-router-dom';
 
 const Inicio = () => {
-
-
     return (
         <div>
             <MenuAppBar/>

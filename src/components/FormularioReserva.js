@@ -1,15 +1,11 @@
 import React,{useState,useEffect}from 'react';
 import {Input, Radio, RadioGroup, FormControlLabel,Button,TextField} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import SearchIcon from '@material-ui/icons/Search';
-// import { borderColor } from '@material-ui/system';
-
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import fetch from 'cross-fetch';
-
 import {Redirect} from 'react-router-dom';
+import {db} from '../firebase'
+import TablaViaje from './TablaViaje'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,47 +53,19 @@ function sleep(delay = 0) {
   });
 }
 
-
 const FormularioReserva = () => {
     const classes = useStyles();
-    const [values,setValues] = useState({
-        opcion:["ida"],
-        lugarOrigen:null,
-        lugarDestino:'',
-        fechaIda:["2020-01-01"],
-        fechaVuelta:["2020-01-01"],
-        cantidad:0
-    });
+    const [opcion,setOpcion] = useState('ida');
+    const [lugarOrigen,setLugarOrigen] = useState('Paraguay');
+    const [lugarDestino,setLugarDestino] = useState('Argentina');
+    const [fechaIda,setFechaIda] = useState('2020-12-15');
+    const [fechaVuelta,setFechaVuelta] = useState('');
+    const [cantidad,setCantidad] = useState(1);
+
     const [busca,setBusca] = useState(false);
-
-    // const [provincias,setProvincias] =useState([]);
-
-    // useEffect(
-    //     async() =>{
-    //         const response = await fetch("https://apis.datos.gob.ar/georef/api/provincias")
-    //         const dataProvincia = await response.json();
-    //         setProvincias(dataProvincia.provincias);
-    // },[])
-
-
-    // const opciones = provincias.map((provincia)=>{
-    //     return(
-    //         <option key={provincia.id} value={provincia.nombre} >{provincia.nombre}</option>
-    //     )}
-    // )
-    
-    function handleChange(e){
-        console.log(e.target);
-        setValues({...values,[e.target.name]: [e.target.value] });
-    }  
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        console.log(values);
-        // setBusca(true);
-        
-    }
-
+    const [apagado,setApagado] = useState(true);
+    const [micros,setMicros] = useState([]);
+    const [primerRender, setPrimerRender] = useState(true);
 
 
         const [openOrigen, setOpenOrigen] = useState(false);
@@ -111,11 +79,8 @@ const FormularioReserva = () => {
         useEffect(() => {
             let active = true;
 
-            if (!loadingOrigen && !loadingDestino) {
-                return undefined;
-            }
+            if (!loadingOrigen && !loadingDestino) return undefined;
             
-
             (async () => {
                 const response = await fetch('https://country.register.gov.uk/records.json?page-size=5000');
                 await sleep(1e3); // For demo purposes.
@@ -125,113 +90,119 @@ const FormularioReserva = () => {
                 setOptionsOrigen(Object.keys(countries).map((key) => countries[key].item[0]));
                 setOptionsDestino(Object.keys(countries).map((key) => countries[key].item[0]));
                 }
-            })
-            ();
+            })();
 
             return () => {
                 active = false;
             };
-            }, [loadingOrigen,loadingDestino]);
 
-            useEffect(() => {
-                if (!openOrigen) {
-                    setOptionsOrigen([]);
-                }
-                if (!openDestino) {
-                    setOptionsDestino([]);
-                }
-            }, [openOrigen,openDestino]);
+        }, [loadingOrigen,loadingDestino]);
 
-          
-  
+        useEffect(() => {
+            if (!openOrigen) {
+                setOptionsOrigen([]);
+            }
+            if (!openDestino) {
+                setOptionsDestino([]);
+            }
+        }, [openOrigen,openDestino]);
+
+
+    useEffect(()=>{     
+        if(opcion === "idaVuelta")
+            setApagado(false);
+        if(opcion === "ida")
+            setApagado(true);
+    },[opcion]);
+
+    useEffect(()=>{
+        
+        if(!primerRender && micros.length == 0)
+            console.log('No hay micros para esa fecha')
+        else
+        {
+            console.log(micros)
+            if(!primerRender)
+             setBusca(true);
+        }
+        setPrimerRender(false);
+    },[micros])
+    
+    const refMicro = db.collection('micro')
+
+    function getMicros() { 
+         refMicro
+        .where("lugarSalida", "==",lugarOrigen)
+        .where("lugarLlegada", "==",lugarDestino)
+        .where("fechaSalida", "==",fechaIda)
+        .where("cantidadAsiento", ">=",cantidad)
+        .onSnapshot((querySnapshot) => {
+            
+            const data = [];
+            querySnapshot.forEach(doc => {
+                console.log(doc.id, " => ", doc.data());
+                data.push(doc.data());
+            });
+                setMicros([...data]); 
+        })
+
+    }
+
+    
+    function handleSubmit(e) {
+        e.preventDefault();
+        getMicros();
+    }
+
+
 return (
     <form className={classes.root} onSubmit={handleSubmit} >
         <h4>RESERVA TU PASAJE</h4>
-        <RadioGroup className={classes.rootChildren} defaultValue="ida"  name="opcion"  value={values.opcion.value} onChange={handleChange}>
+        <RadioGroup className={classes.rootChildren} defaultValue="ida"  name="opcion"  value={opcion.value} onChange={(e)=>setOpcion(e.target.value)}>
             <FormControlLabel className={classes.col} value="ida" control={<Radio color="primary"/>} label="IDA" labelPlacement="start"/>
             <FormControlLabel className={classes.col} value="idaVuelta" control={<Radio color="primary" />} label="IDA Y VUELTA" labelPlacement="start"/>
         </RadioGroup>
-        {/* <div className={classes.rootChildren}>
-             <Autocomplete className={classes.col}
-                    // onChange={handleChange}
-                    // value={values.lugarOrigen}
-                    id="origen"
-                    open={openOrigen}
-                    onOpen={() => {
-                        setOpenOrigen(true);
-                    }}
-                    onClose={() => {
-                        setOpenOrigen(false);
-                    }}
-                    getOptionSelected={(option, value) => option.name === value.name}
-                    getOptionLabel={(option) => option.name}
-                    options={optionsOrigen}
-                    loading={loadingOrigen}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            label="ORIGEN"
-                            variant="outlined"
-                            InputProps={{
-                                ...params.InputProps,
-                                endAdornment: (
-                                <React.Fragment>
-                                    {loadingOrigen ? <CircularProgress color="inherit" size={20} /> : null}
-                                    {params.InputProps.endAdornment}
-                                </React.Fragment>
-                                ),
-                            }}
-                        />
-                    )}
-                    />
-                    <Autocomplete className={classes.col}
-                        // onChange={handleChange}
-                        // value={values.lugarDestino}
-                        id="origen"
-                        open={openDestino}
-                        onOpen={() => {
-                            setOpenDestino(true);
-                        }}
-                        onClose={() => {
-                            setOpenDestino(false);
-                        }}
-                        getOptionSelected={(option, value) => option.name === value.name}
-                        getOptionLabel={(option) => option.name}
-                        options={optionsDestino}
-                        loading={loadingDestino}
-                        renderInput={(params) => (
-                            <TextField
-                            {...params}
-                            label="DESTINO"
-                            variant="outlined"
-                            InputProps={{
-                                ...params.InputProps,
-                                endAdornment: (
-                                <React.Fragment>
-                                    {loadingDestino ? <CircularProgress color="inherit" size={20} /> : null}
-                                    {params.InputProps.endAdornment}
-                                </React.Fragment>
-                                ),
-                            }}
-                            />
-                        )}
-                    />
-    
-                </div> */}
-                <div className={classes.rootChildren}>
-                    <TextField className={classes.textField} onChange={handleChange} name="fechaIda" value={values.fechaIda} label="FECHA DE IDA" type="date" InputLabelProps={{shrink: true,}}/>
-                    <TextField className={classes.textField} onChange={handleChange} name="fechaVuelta" value={values.fechaVuelta} label="FECHA DE VUELTA" type="date" InputLabelProps={{shrink: true,}}/>
-                </div>
-                <div className={classes.rootChildren}>
-                    <div className={classes.col}>
-                        <label htmlFor="">Personas </label>
-                        <Input onChange={handleChange} name="cantidad" value={values.cantidad} inputProps={{ step: 1, min: 0, max: 3, type: 'number',}}/>
-                    </div>    
-                    <div className={classes.col}>
-                        <Button variant="contained" color="primary" type="submit"  className={classes.buscar}>BUSCAR VIAJES</Button>
-                    </div>
-                </div>
-                {busca  && <Redirect to="/viaje"/>}
+        <div className={classes.rootChildren}>
+            <Autocomplete className={classes.col}
+                // onChange={(e,valor)=>{if(valor!=null) handleChange(e,valor.name,'lugarOrigen')}}
+                onChange={(e,valor)=>{if(valor!=null)setLugarOrigen(valor.name)}}
+                open={openOrigen}
+                onOpen={() => {setOpenOrigen(true);}}
+                onClose={() => {setOpenOrigen(false);}}
+                getOptionSelected={(option, value) => option.name === value.name}
+                getOptionLabel={(option) => option.name}
+                options={optionsOrigen}
+                loading={loadingOrigen}
+                renderInput={(params) => ( <TextField {...params} label="ORIGEN" variant="outlined"/>)}
+            />
+            
+            <Autocomplete className={classes.col}
+                // onChange={(e,valor)=>{if(valor!=null) handleChange(e,valor.name,'lugarDestino')}}
+                onChange={(e,valor)=>{if(valor!=null)setLugarDestino(valor.name)}}
+                open={openDestino}
+                onOpen={() => {setOpenDestino(true);}}
+                onClose={() => {setOpenDestino(false);}}
+                getOptionSelected={(option, value) => option.name === value.name}
+                getOptionLabel={(option) => option.name}
+                options={optionsDestino}
+                loading={loadingDestino}
+                renderInput={(params) => (<TextField {...params} label="DESTINO" variant="outlined"/>)}
+            />
+        </div>
+        <div className={classes.rootChildren}>
+            <TextField className={classes.textField} onChange={(e)=>setFechaIda(e.target.value)} name="fechaIda" value={fechaIda} label="FECHA DE IDA" type="date" InputLabelProps={{shrink: true,}}/>
+            <TextField disabled={apagado} className={classes.textField} onChange={(e)=>setFechaVuelta(e.target.value)} name="fechaVuelta" value={fechaVuelta} label="FECHA DE VUELTA" type="date" InputLabelProps={{shrink: true,}}/>
+        </div>
+        <div className={classes.rootChildren}>
+            <div className={classes.col}>
+                <label htmlFor="">Personas </label>
+                <Input onChange={(e)=>setCantidad(e.target.value)} name="cantidad" value={cantidad} inputProps={{ step: 1, min: 1, max: 3, type: 'number',}}/>
+            </div>    
+            <div className={classes.col}>
+                <Button variant="contained" color="primary" type="submit"  className={classes.buscar}>BUSCAR VIAJES</Button>
+            </div>
+        </div>
+        {true && <Redirect to='/viaje'/>}
     </form>
 );
 

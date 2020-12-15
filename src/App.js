@@ -11,7 +11,7 @@ import {
 const App = () => (
     <Router>
         <Switch>
-            {/* route se especifica el componente dinamico */}
+            {/* <Route path=""> */}
             <Route path="/viaje"><Viaje/></Route>
             <Route path="/" exact><Inicio/></Route>
         </Switch>
