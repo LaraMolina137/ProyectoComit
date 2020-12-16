@@ -1,6 +1,7 @@
 import React from "react";
 import Inicio from './view/Inicio'
 import Viaje from './components/Viaje'
+import FormularioPasajero from './components/FormularioPasajero'
 import './index.css'
 import {
     BrowserRouter as Router,
@@ -11,7 +12,7 @@ import {
 const App = () => (
     <Router>
         <Switch>
-            {/* <Route path=""> */}
+            <Route path="/pasajero"><FormularioPasajero/></Route>
             <Route path="/viaje"><Viaje/></Route>
             <Route path="/" exact><Inicio/></Route>
         </Switch>

@@ -202,7 +202,10 @@ return (
                 <Button variant="contained" color="primary" type="submit"  className={classes.buscar}>BUSCAR VIAJES</Button>
             </div>
         </div>
-        {true && <Redirect to='/viaje'/>}
+        {busca && <Redirect  to={{ pathname: "/viaje",
+                                  state: { Micros: micros } 
+                                  }}/>}
+  
     </form>
 );
 

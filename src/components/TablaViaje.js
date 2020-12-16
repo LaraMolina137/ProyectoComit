@@ -1,14 +1,17 @@
 import React from 'react';
+import {withRouter, Redirect} from 'react-router-dom';
+// import Button from '@material-ui/core/Button/Button';
 
-function Deletebutton(props) {
+function Seleccionar({micro}) {
+
+    const [redirecciona,setRedirecciona] = React.useState(false);
 
     return(
-        <div className="delete">
-            <button onClick={()=>
-                props.delete(props.usuario)
-            }>
-                Delete
+        <div className="seleccionar">
+            <button onClick={()=>setRedirecciona(true)} >
+               Seleccionar
             </button>
+            {redirecciona && <Redirect  to={{ pathname: "/pasajero",state:{Micros: micro} }}/> }
         </div>
     );
 }
@@ -17,38 +20,47 @@ const Tablehead = () => {
     return (
         <thead className="Table">
             <tr>
-                <th>Name</th>
-                <th>Job</th>
-                <th>Remove</th>
+                <th>Empresa</th>
+                <th>Hora Salida</th>
+                <th>Hora Llegada</th>
+                <th>Tipo</th>
+                <th>Seleccionar</th>
             </tr>
         </thead>
     );
 };
 
-function Tablebody(props) {
-    // const filas=props.datoImput.map((user,index)=>{
-    //     return(
-    //         <tr key={index}> 
-    //         <td>{user.nombre}</td>
-    //         <td>{user.oficio}</td>
-    //         <td><Deletebutton delete={props.delete} usuario={index}/></td>
-    //     </tr>
-    //     )}
-    // )
+function Tablebody({micro}) {
+    const filas = micro.map((user,index)=>{
+        return(
+            <tr key={index}> 
+              <td>{user.empresa}</td>
+              <td>{user.horaSalida}</td>
+              <td>{user.horaLlegada}</td>
+              <td>{user.tipo}</td>
+              <td><Seleccionar micro={micro}/></td>
+            </tr>
+        )}
+    )
 
-    // return(<tbody>
-    //     {filas}
-    // </tbody>);
+    return(<tbody>
+        {filas}
+    </tbody>);
 }
 
 const TablaViaje = (props) => {
-    return (
-            <table>
-              <Tablehead/>
-              {/* <Tablebody datoImput={props.datosInput} delete={props.deleteUser}/> */}
-            </table>
-        
+
+    const {location} = props;
+    const micros = location.state.Micros;
+
+    return (<div>
+                <h3>Viajes</h3>
+                <table>
+                    <Tablehead/>
+                    <Tablebody micro={micros}/>
+                </table>
+            </div>
     );
 };
 
-export default TablaViaje;
+export default withRouter(TablaViaje);
