@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor:'#fff',
       position: 'absolute',
       opacity: 0.9,
-      top: '10%'
+      top: '13%'
     },
     rootChildren:{
         display:'flex',
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
     col:{
         flex: '1 1',
-        margin:2 
+        margin:4
     },
     textField: {
         marginLeft: theme.spacing(1),
@@ -43,7 +43,10 @@ const useStyles = makeStyles((theme) => ({
         // padding:10,
         // marginTop: theme.spacing(3),
         // marginLeft: theme.spacing(4),
-
+    },
+    titulo:{
+        // marginLeft: theme.spacing(15),
+        margin:0
     }
 }));
 
@@ -148,16 +151,14 @@ const FormularioReserva = () => {
 
     }
 
-    
     function handleSubmit(e) {
         e.preventDefault();
         getMicros();
     }
 
-
 return (
     <form className={classes.root} onSubmit={handleSubmit} >
-        <h4>RESERVA TU PASAJE</h4>
+        <h3 className={classes.titulo}>RESERVA TU PASAJE</h3>
         <RadioGroup className={classes.rootChildren} defaultValue="ida"  name="opcion"  value={opcion.value} onChange={(e)=>setOpcion(e.target.value)}>
             <FormControlLabel className={classes.col} value="ida" control={<Radio color="primary"/>} label="IDA" labelPlacement="start"/>
             <FormControlLabel className={classes.col} value="idaVuelta" control={<Radio color="primary" />} label="IDA Y VUELTA" labelPlacement="start"/>

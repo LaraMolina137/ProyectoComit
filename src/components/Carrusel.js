@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 // import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 // import Button from '@material-ui/core/Button';
 // import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 // import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -13,35 +13,30 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const tutorialSteps = [
   {
-    // label: 'San Francisco – Oakland Bay Bridge, United States',
+    label: 'Micro carretera',
     imgPath:
-      'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://fotos.perfil.com/2020/07/16/0716micros-987234.jpg',
   },
   {
-    // label: 'Bird',
+    label: 'micro estacionado',
     imgPath:
-      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://3.bp.blogspot.com/-ROu3hhV5Wr8/WGvpG-YZCFI/AAAAAAAAAdc/f733eSSKviooqtbUfkWqUunhoSRkFP7owCLcB/s1600/volvo-bus.jpg',
   },
   {
-    // label: 'Bali, Indonesia',
+    label: 'Bali, Indonesia',
     imgPath:
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
+      'https://eterdigital.com.ar/wp-content/uploads/2016/11/unidades4-989x480.jpg',
   },
-  // {
-  //   // label: 'NeONBRAND Digital Marketing, Las Vegas, United States',
-  //   imgPath:
-  //     'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=400&h=250&q=60',
-  // },
   {
-    // label: 'Goč, Serbia',
+    label: 'NeONBRAND Digital Marketing, Las Vegas, United States',
     imgPath:
-      'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://quedigital.com.ar/web/wp-content/uploads/2020/03/TERMINAL-1.jpg',
   },
 ];
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // maxWidth: 400,
+    maxWidth: 2000,
     flexGrow: 1,
   },
   header: {
@@ -52,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    height: 450,
+    height: 445,
     display: 'block',
     // maxWidth: 400,
     overflow: 'hidden',
@@ -60,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Carrusel() {
+function SwipeableTextMobileStepper() {
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -81,7 +76,7 @@ function Carrusel() {
   return (
     <div className={classes.root}>
       <Paper square elevation={0} className={classes.header}>
-        <Typography>{tutorialSteps[activeStep].label}</Typography>
+        {/* <Typography>{tutorialSteps[activeStep].label}</Typography> */}
       </Paper>
       <AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -101,4 +96,5 @@ function Carrusel() {
   );
 }
 
-export default Carrusel;
+export default SwipeableTextMobileStepper;
+

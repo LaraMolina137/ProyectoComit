@@ -19,7 +19,17 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    paddingTop: theme.spacing(1)
   },
+  imagen: {
+    height: 50,
+    marginRight: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  inicioSesion:{
+    marginRight: theme.spacing(1),
+  }
 }));
 
 export default function MenuAppBar() {
@@ -43,7 +53,8 @@ export default function MenuAppBar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-            <Typography variant="h6" className={classes.title}>|Micro-Distance</Typography>
+            <img className={classes.imagen} src="https://www.pngjoy.com/pngl/954/11057525_nube-kid-goku-iphone-x-transparent-png.png" alt=""/>
+            <Typography variant="h4" className={classes.title}>Micro-Distance</Typography>
             <div>
                 {/* funcionalidad del boton usuario */}
                 <IconButton
@@ -53,6 +64,7 @@ export default function MenuAppBar() {
                     onClick={handleMenu}
                     color="inherit"
                 >
+                    <Typography variant="h6" className={classes.inicioSesion}>Iniciar Sesion</Typography>
                     <AccountCircle />
                 </IconButton>
 

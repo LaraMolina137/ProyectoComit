@@ -1,24 +1,37 @@
 import React from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
-// import Button from '@material-ui/core/Button/Button';
+import { makeStyles } from '@material-ui/core/styles';
+import { border } from '@material-ui/system';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        marginLeft: theme.spacing(40),
+        marginRight: theme.spacing(40),
+        marginTop: theme.spacing(10),
+        padding: theme.spacing(2),
+        borderColor:'black',
+        border:'1px solid',
+    },
+    head: {
+
+    }
+
+}));
 
 function Seleccionar({micro}) {
-
     const [redirecciona,setRedirecciona] = React.useState(false);
-
     return(
         <div className="seleccionar">
-            <button onClick={()=>setRedirecciona(true)} >
-               Seleccionar
-            </button>
+            <button onClick={()=>setRedirecciona(true)}> Seleccionar</button>
             {redirecciona && <Redirect  to={{ pathname: "/pasajero",state:{Micros: micro} }}/> }
         </div>
     );
 }
 
 const Tablehead = () => {
+    const classes = useStyles();
     return (
-        <thead className="Table">
+        <thead className={classes.head}>
             <tr>
                 <th>Empresa</th>
                 <th>Hora Salida</th>
@@ -49,11 +62,12 @@ function Tablebody({micro}) {
 }
 
 const TablaViaje = (props) => {
+    const classes = useStyles();
 
     const {location} = props;
     const micros = location.state.Micros;
 
-    return (<div>
+    return (<div className={classes.root}>
                 <h3>Viajes</h3>
                 <table>
                     <Tablehead/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import MenuAppBar from '../components/AppBar';
 import FormularioReserva from '../components/FormularioReserva'
-import Carrusel from '../components/Carrusel'
+import SwipeableTextMobileStepper from '../components/Carrusel'
 
 import {Redirect} from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const Inicio = () => {
     return (
         <div>
             <MenuAppBar/>
-            {/* <Carrusel/> */}
+            <SwipeableTextMobileStepper/>
             <FormularioReserva/>
         </div>
     );
