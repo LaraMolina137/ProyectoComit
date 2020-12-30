@@ -1,7 +1,7 @@
 import React from "react";
 import Inicio from './view/Inicio'
-import Viaje from './components/Viaje'
-import FormularioPasajero from './components/FormularioPasajero'
+import Viaje from './view/Viaje'
+import ProcesoViaje from './view/ProcesoViaje'
 import './index.css'
 import {
     BrowserRouter as Router,
@@ -12,7 +12,7 @@ import {
 const App = () => (
     <Router>
         <Switch>
-            <Route path="/pasajero"><FormularioPasajero/></Route>
+            <Route path="/pasajero"><ProcesoViaje/></Route>
             <Route path="/viaje"><Viaje/></Route>
             <Route path="/" exact><Inicio/></Route>
         </Switch>

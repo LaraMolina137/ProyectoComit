@@ -53,7 +53,7 @@ const Signup = ({setRegistra}) => {
                     </Grid>
                     <br/>
                     <Grid item md={12}>
-                        <Button variant="contained" color="primary" onClick={()=>setRegistra(false)} >Cancelar</Button>
+                        <Button variant="contained" color="primary" onClick={()=>setRegistra(false)} >Atras</Button>
                     </Grid>
                 </form>
         </Container>

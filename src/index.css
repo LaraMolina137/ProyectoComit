@@ -14,4 +14,136 @@ code {
     
 }
 
+.general{
+  display: flex;
+  flex-flow: column nowrap;
+  width: 50vw;
+}
+
+    .titulo{
+      display: flex;
+      flex: 1 1;
+    }
+        .titulo p{
+          /* flex: 1 1; */
+          padding-left: 10%
+        }
+
+    .DibujoMicro{
+      height: 80vh;
+      width: 50vw;
+      padding: 1%;
+      display: flex;
+      flex: 1 1
+    }
+
+        .plantaBaja{
+          background-color: aliceblue;
+          border: 1px solid black;
+          border-radius: 20px;
+          margin: 1%;
+          padding: 2%;
+          flex: 1 1;
+          display: flex;
+          flex-flow: column nowrap;
+          justify-content: center
+        }
+            .rowBaja{
+              display: flex;
+            }
+                .vacio{
+                  background-color: aliceblue;
+                  height: 5vh;
+                  width: 2vw;
+                  margin: 1%;
+                  flex: 1 1
+                }
+                .asiento{
+                  background-color:rgb(132, 226, 140);
+                  height: 5vh;
+                  width: 2vw;
+                  margin: 1%;
+                  flex: 1 1;
+                  text-align: center;
+                  border-radius: 5px;
+                }
+
+                .asiento:hover{
+                  cursor: pointer;
+                  background-color:rgb(62, 168, 71);
+                  color: aliceblue;
+                }
+
+        .plantaAlta{
+          background-color: aliceblue;
+          border: 1px solid black;
+          border-radius: 20px;
+          margin: 1%;
+          padding: 2%;
+          flex: 1 1;
+          display: flex;
+          flex-flow: column nowrap;
+          justify-content: center
+        }
+            .rowAlta{
+              display: flex;
+            }
+
+        .indicacion{
+          background-color: aliceblue;
+          margin: 1%;
+          padding: 2%;
+          height: 20vh;
+          width: 10vw;
+          display: flex;
+          flex-flow: column nowrap;
+        }
+              .rowIndicacion{
+                  display: flex;
+                  padding: 4px;
+              }
+
+                      .rowIndicacion .disponible{
+                        background-color:rgb(132, 226, 140);
+                      
+                        height: 5vh;
+                        width: 2vw;
+                      }
+
+                      .rowIndicacion .seleccionado{
+                        background-color:rgba(0, 0, 255, 0.534);
+                        /* flex:  1 1; */
+                        height: 5vh;
+                        width: 2vw;
+                        
+                      }
+
+                      .rowIndicacion .ocupado{
+                        background-color: rgba(165, 42, 42, 0.616);
+                        /* flex:  1 1; */
+                        height: 5vh;
+                        width: 2vw;
+                        
+                      }
+
+                      .rowIndicacion p{
+                        /* flex:  1 1; */
+                        height: 5vh;
+                        width: 2vw;
+                        margin: 0;
+                        padding-left: 5px;
+                      }
+
+
+
+
+                      .MuiAlert-root{
+                        margin-bottom: 28%;
+                        margin-left: 25%;
+                        /* width: 200% */
+                      }
+/* medias query */
+form{
+  width: 100%;
+}
 

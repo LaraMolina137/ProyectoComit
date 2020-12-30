@@ -1,8 +1,9 @@
 import React from 'react';
-import MenuAppBar from './AppBar'
-import TablaViaje from './TablaViaje'
+import MenuAppBar from '../components/AppBar'
+import TablaViaje from '../components/TablaViaje'
 
 const Viaje = () => {
+
     return (
         <div>
             <MenuAppBar/>
