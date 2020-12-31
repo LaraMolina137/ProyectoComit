@@ -14,9 +14,9 @@ const App = () => (
         <Switch>
             <Route path="/pasajero"><ProcesoViaje/></Route>
             <Route path="/viaje"><Viaje/></Route>
-            <Route path="/" exact><Inicio/></Route>
+            <Route path="/"><Inicio/></Route>
         </Switch>
-    </Router>         
+    </Router>       
 );
 export default App;
 
